@@ -1,1 +1,1 @@
-Hello, wiki [coming soon](google.com)
+Hello, wiki [coming soon](https://www.google.com)
