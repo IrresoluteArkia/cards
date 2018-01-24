@@ -1,0 +1,16 @@
+[
+{
+  "modid": "recards",
+  "name": "Resolute Cards",
+  "description": "Adds resolute cards to give you permanent semi-random potion effects!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["IrresoluteArkia"],
+  "credits": "...",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
