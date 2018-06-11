@@ -4,6 +4,7 @@ package com.irar.recards.handlers;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.irar.recards.card.Card;
 import com.irar.recards.card.Cards;
 import com.irar.recards.item.ItemCard;
 import com.irar.recards.item.ItemCardSelector;
@@ -21,7 +22,7 @@ public class ItemHandler {
 	public static Item CardSelector;
 	public static Item CardIrresolute;
 	public static Item CardSelectorTiered;
-	public static Item CardClubAce;
+/*	public static Item CardClubAce;
 	public static Item CardClubTwo;
 	public static Item CardClubThree;
 	public static Item CardClubFour;
@@ -72,13 +73,17 @@ public class ItemHandler {
 	public static Item CardHeartTen;
 	public static Item CardHeartJack;
 	public static Item CardHeartQueen;
-	public static Item CardHeartKing;
+	public static Item CardHeartKing;*/
 	
 	public static void init(){
 		CardSelector = new ItemCardSelector("card_selector");
 		CardIrresolute = new ItemIrresoluteCard("card_irresolute");
 		CardSelectorTiered = new ItemCardSelectorTiered("card_selector_tiered");
-		CardClubAce = new ItemCard("card_club_ace", Cards.clubAce);
+		for(Card card : Cards.allCards) {
+			Item CurrentCard = new ItemCard("card_" + card.suit + "_" + card.type, card);
+			Cards.allCardItems.add(CurrentCard);
+		}
+/*		CardClubAce = new ItemCard("card_club_ace", Cards.clubAce);
 		CardClubTwo = new ItemCard("card_club_two", Cards.clubTwo);
 		CardClubThree = new ItemCard("card_club_three", Cards.clubThree);
 		CardClubFour = new ItemCard("card_club_four", Cards.clubFour);
@@ -129,12 +134,12 @@ public class ItemHandler {
 		CardHeartTen = new ItemCard("card_heart_ten", Cards.heartTen);
 		CardHeartJack = new ItemCard("card_heart_jack", Cards.heartJack);
 		CardHeartQueen = new ItemCard("card_heart_queen", Cards.heartQueen);
-		CardHeartKing = new ItemCard("card_heart_king", Cards.heartKing);
+		CardHeartKing = new ItemCard("card_heart_king", Cards.heartKing);*/
 		
 		allItems.add(CardSelector);
 		allItems.add(CardIrresolute);
 		allItems.add(CardSelectorTiered);
-		Cards.allCardItems.add(CardClubAce);
+/*		Cards.allCardItems.add(CardClubAce);
 		Cards.allCardItems.add(CardClubTwo);
 		Cards.allCardItems.add(CardClubThree);
 		Cards.allCardItems.add(CardClubFour);
@@ -185,7 +190,7 @@ public class ItemHandler {
 		Cards.allCardItems.add(CardHeartTen);
 		Cards.allCardItems.add(CardHeartJack);
 		Cards.allCardItems.add(CardHeartQueen);
-		Cards.allCardItems.add(CardHeartKing);
+		Cards.allCardItems.add(CardHeartKing);*/
 		
 		for(int i = 0; i < Cards.allCardItems.size(); i++){
 			allItems.add(Cards.allCardItems.get(i));

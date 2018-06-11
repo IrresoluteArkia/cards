@@ -15,12 +15,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class ItemCard  extends ItemGeneric{
@@ -38,16 +40,32 @@ public class ItemCard  extends ItemGeneric{
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		if(!worldIn.isRemote){
 			if(!CommonProxy.saveData.isPlayerInList(playerIn)){
-				TextComponentString messagep1 = new TextComponentString("[ResoluteArkia]");
+				Card selectedCard = ((ItemCard) stack.getItem()).card;
+				CommonProxy.saveData.addPlayer(playerIn, selectedCard);
+				int tier = ItemCard.getTierFromItemStack(stack);
+				for(int i = 0; i < tier - 1; i++) {
+					CommonProxy.saveData.upgradeCard(selectedCard, playerIn);
+				}
+/*				TextComponentString messagep1 = new TextComponentString("[ResoluteArkia]");
 				TextComponentString messagep2 = new TextComponentString(" ...");
 				messagep1.setStyle(new Style().setColor(TextFormatting.DARK_RED));
 				messagep2.setStyle(new Style().setBold(true).setColor(TextFormatting.AQUA));
 				messagep1.appendSibling(messagep2);
-				playerIn.sendMessage(messagep1);
+				playerIn.sendMessage(messagep1);*/
+				stack.shrink(1);
 			}else{
-					Card selectedCard = ((ItemCard) stack.getItem()).card;
-					CommonProxy.saveData.upgradeCard(card, playerIn);
+				boolean consumed = false;
+				Card selectedCard = ((ItemCard) stack.getItem()).card;
+				int currentTier = CommonProxy.saveData.getTierForCard(selectedCard, playerIn) + 1;
+				int tier = ItemCard.getTierFromItemStack(stack);
+				while(currentTier < tier) {
+					CommonProxy.saveData.upgradeCard(selectedCard, playerIn);
+					currentTier++;
+					consumed = true;
+				}
+				if(consumed) {
 					stack.shrink(1);
+				}
 			}
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
@@ -63,6 +81,9 @@ public class ItemCard  extends ItemGeneric{
 			}else if(stack.getMetadata() == 1) {
 				tooltip.add("Level " + tier);
 			}
+			for(PotionEffect effect : card.potionEffects) {
+				tooltip.add(I18n.translateToLocal(effect.getEffectName()) + " " + (effect.getAmplifier() + tier));
+			}
 		}
 		
 		super.addInformation(stack, worldIn, tooltip, flagIn);
@@ -70,6 +91,16 @@ public class ItemCard  extends ItemGeneric{
 	
 	public Card getCard(){
 		return this.card;
+	}
+	
+	public static int getTierFromItemStack(ItemStack stack) {
+		if(stack.hasTagCompound()) {
+			NBTTagCompound tag = stack.getTagCompound();
+			if(tag.hasKey("TIER")) {
+				return tag.getInteger("TIER");
+			}
+		}
+		return 0;
 	}
 
 	public ItemStack getItemStackWithTier(int tier) {

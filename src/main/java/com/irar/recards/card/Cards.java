@@ -12,6 +12,22 @@ public class Cards {
 	private static Random rand = new Random();
 	public static ArrayList<Card> allCards = new ArrayList<Card>();
 	public static ArrayList<Item> allCardItems = new ArrayList<Item>();
+	public static ArrayList<String> numbers = new ArrayList();
+	static {
+		numbers.add("ace");
+		numbers.add("two");
+		numbers.add("three");
+		numbers.add("four");
+		numbers.add("five");
+		numbers.add("six");
+		numbers.add("seven");
+		numbers.add("eight");
+		numbers.add("nine");
+		numbers.add("ten");
+		numbers.add("jack");
+		numbers.add("queen");
+		numbers.add("king");
+	}
 	
 	public static final Card clubAce = new Card("club", "ace", new int[]{5, 1}, new int[]{1, 0});
 	public static final Card clubTwo = new Card("club", "two", new int[]{5, 8}, new int[]{1, 0});

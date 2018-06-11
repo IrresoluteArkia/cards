@@ -10,6 +10,7 @@ import com.irar.recards.card.Cards;
 import com.irar.recards.proxy.CommonProxy;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,14 @@ public class ItemIrresoluteCard extends ItemGeneric{
 					messagep2.setStyle(new Style().setBold(true).setColor(TextFormatting.AQUA));
 					messagep1.appendSibling(messagep2);
 					playerIn.sendMessage(messagep1);
+            		ArrayList<Object[]> playerCards = CommonProxy.saveData.getCardsWithTierForPlayer(playerIn);
+            		for(int i = 0; i < playerCards.size(); i++){
+            			Object[] cardAndTier = playerCards.get(i);
+            			Card playerCard = ((Card) cardAndTier[0]);
+            			int tier = (int) cardAndTier[1];
+            			ItemStack cardItem = ItemCard.getItemStackWithTierCardAndMetadata(playerCard, tier, 1);
+            			worldIn.spawnEntity(new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, cardItem));
+            		}
 					CommonProxy.saveData.removePlayer(playerIn);
 					playerIn.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
 					if(stack.getCount() == 1){
@@ -60,7 +69,7 @@ public class ItemIrresoluteCard extends ItemGeneric{
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		
-		tooltip.add("Warning: will remove all of your effect cards along with any effects you might have");
+		tooltip.add("Warning: Will Convert Your Resolute Powers Back Into Card Form");
 		
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}

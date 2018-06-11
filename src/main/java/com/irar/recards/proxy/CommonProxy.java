@@ -30,6 +30,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -135,6 +136,25 @@ public class CommonProxy implements IProxy{
             		}
             	}
             }
+        }
+        @SubscribeEvent
+        public void playerSpawn(PlayerEvent.PlayerRespawnEvent event) {
+            if (event.player.world.isRemote) {
+                return;
+            }
+        	EntityPlayerMP entityPlayer = (EntityPlayerMP)event.player;
+        	if(saveData.isPlayerInList(entityPlayer)){
+        		ArrayList<Object[]> playerCards = saveData.getCardsWithTierForPlayer(entityPlayer);
+        		for(int i = 0; i < playerCards.size(); i++){
+        			Object[] cardAndTier = playerCards.get(i);
+            		for(int j = 0; j < ((Card) cardAndTier[0]).potionEffects.size(); j++){
+            			Card playerCard = ((Card) cardAndTier[0]);
+            			int amp = (int) cardAndTier[1];
+            			PotionEffect effect = playerCard.potionEffects.get(j);
+            			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, effect.getAmplifier() + amp - 1, false, false));
+            		}
+        		}
+        	}
         }
 
 	}
