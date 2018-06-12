@@ -8,16 +8,18 @@ import net.minecraft.potion.PotionEffect;
 public class Card {
 	
 	public String id;
-	public String suit;
-	public String type;
+	public Suit suit;
+	public CardType type;
 	public ArrayList<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
 	
-	public Card(String suit, String type, int[] potionIds, int[] potionAmps){
+	public Card(Suit suit, CardType type, int[] potionIds, int[] potionAmps){
 		this.suit = suit;
 		this.type = type;
 		this.id = suit + "_" + type;
-		for(int i = 0; i < potionIds.length; i++){
-			potionEffects.add(new PotionEffect(Potion.getPotionById(potionIds[i]), 10000, potionAmps[i]));
+		if(potionIds != null && potionAmps != null) {
+			for(int i = 0; i < potionIds.length; i++){
+				potionEffects.add(new PotionEffect(Potion.getPotionById(potionIds[i]), 10000, potionAmps[i]));
+			}
 		}
 	}
 	

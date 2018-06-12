@@ -10,6 +10,9 @@ import com.irar.recards.handlers.CreativeTabsHandler;
 import com.irar.recards.handlers.ItemHandler;
 import com.irar.recards.proxy.CommonProxy;
 
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -25,7 +28,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class ItemCard  extends ItemGeneric{
+public class ItemCard  extends ItemGeneric implements ItemMeshDefinition, IItemColor{
 	
 	private Card card;
 	
@@ -33,6 +36,17 @@ public class ItemCard  extends ItemGeneric{
 		super(name);
 		this.card = card;
 		this.setHasSubtypes(true);
+	}
+	
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		Card card = ((ItemCard) stack.getItem()).getCard();
+		if(card != null) {
+			String suit = card.suit.name;
+			String type = card.type.name;
+			return "The " + type + " of " + suit;
+		}
+		return "";
 	}
 	
 	@Override
@@ -129,4 +143,17 @@ public class ItemCard  extends ItemGeneric{
 		return ItemStack.EMPTY;
 	}
 
-}
+	@Override
+	public ModelResourceLocation getModelLocation(ItemStack stack) {
+		ModelResourceLocation loc = new ModelResourceLocation(((ItemCard) stack.getItem()).card.type.texture, "inventory");
+		return loc;
+	}
+
+	@Override
+	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+        return tintIndex > 0 ? -1 : getColor(stack);
+	}
+
+	public static int getColor(ItemStack stack) {
+		return ((ItemCard) stack.getItem()).card.suit.color;
+	}}

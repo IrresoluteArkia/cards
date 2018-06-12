@@ -37,7 +37,7 @@ public class ItemCardSelector extends ItemGeneric{
 			}else{
 					Card selectedCard = Cards.getRandomCard();
 					TextComponentString messagep1 = new TextComponentString("[ResoluteArkia]");
-					TextComponentString messagep2 = new TextComponentString(" Be glad, " + playerIn.getName() + "! The " + selectedCard.type + " of " + selectedCard.suit + "s has seen fit to grant you its great power!");
+					TextComponentString messagep2 = new TextComponentString(" Be glad, " + playerIn.getName() + "! The " + selectedCard.type.name + " of " + selectedCard.suit.name + " has seen fit to grant you its great power!");
 					messagep1.setStyle(new Style().setColor(TextFormatting.DARK_RED));
 					messagep2.setStyle(new Style().setBold(true).setColor(TextFormatting.AQUA));
 					messagep1.appendSibling(messagep2);

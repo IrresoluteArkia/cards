@@ -12,132 +12,75 @@ public class Cards {
 	private static Random rand = new Random();
 	public static ArrayList<Card> allCards = new ArrayList<Card>();
 	public static ArrayList<Item> allCardItems = new ArrayList<Item>();
-	public static ArrayList<String> numbers = new ArrayList();
-	static {
-		numbers.add("ace");
-		numbers.add("two");
-		numbers.add("three");
-		numbers.add("four");
-		numbers.add("five");
-		numbers.add("six");
-		numbers.add("seven");
-		numbers.add("eight");
-		numbers.add("nine");
-		numbers.add("ten");
-		numbers.add("jack");
-		numbers.add("queen");
-		numbers.add("king");
-	}
+	public static ArrayList<ArrayList<Card>> cardsBySuit = new ArrayList<>();
+	public static int[][][][] PEMAP = new int[Suit.values().length][CardType.values().length][2][];
 	
-	public static final Card clubAce = new Card("club", "ace", new int[]{5, 1}, new int[]{1, 0});
-	public static final Card clubTwo = new Card("club", "two", new int[]{5, 8}, new int[]{1, 0});
-	public static final Card clubThree = new Card("club", "three", new int[]{5, 13}, new int[]{1, 0});
-	public static final Card clubFour = new Card("club", "four", new int[]{5, 14}, new int[]{1, 0});
-	public static final Card clubFive = new Card("club", "five", new int[]{5, 24}, new int[]{1, 0});
-	public static final Card clubSix = new Card("club", "six", new int[]{5, 4}, new int[]{1, 0});
-	public static final Card clubSeven = new Card("club", "seven", new int[]{5, 18}, new int[]{1, 0});
-	public static final Card clubEight = new Card("club", "eight", new int[]{5, 26}, new int[]{1, 0});
-	public static final Card clubNine = new Card("club", "nine", new int[]{5, 27}, new int[]{1, 0});
-	public static final Card clubTen = new Card("club", "ten", new int[]{5}, new int[]{2});
-	public static final Card clubJack = new Card("club", "jack", new int[]{5, 2}, new int[]{1, 0});
-	public static final Card clubQueen = new Card("club", "queen", new int[]{5, 16}, new int[]{1, 0});
-	public static final Card clubKing = new Card("club", "king", new int[]{5, 22}, new int[]{1, 0});
-	
-	public static final Card diamondAce = new Card("diamond", "ace", new int[]{11, 1}, new int[]{0, 1});
-	public static final Card diamondTwo = new Card("diamond", "two", new int[]{11, 8}, new int[]{0, 1});
-	public static final Card diamondThree = new Card("diamond", "three", new int[]{11, 13}, new int[]{0, 1});
-	public static final Card diamondFour = new Card("diamond", "four", new int[]{11, 14}, new int[]{0, 1});
-	public static final Card diamondFive = new Card("diamond", "five", new int[]{11, 24}, new int[]{0, 1});
-	public static final Card diamondSix = new Card("diamond", "six", new int[]{11, 4}, new int[]{0, 1});
-	public static final Card diamondSeven = new Card("diamond", "seven", new int[]{11, 18}, new int[]{0, 1});
-	public static final Card diamondEight = new Card("diamond", "eight", new int[]{11, 26}, new int[]{0, 1});
-	public static final Card diamondNine = new Card("diamond", "nine", new int[]{11, 27}, new int[]{0, 1});
-	public static final Card diamondTen = new Card("diamond", "ten", new int[]{11}, new int[]{2});
-	public static final Card diamondJack = new Card("diamond", "jack", new int[]{11, 2}, new int[]{0, 1});
-	public static final Card diamondQueen = new Card("diamond", "queen", new int[]{11, 16}, new int[]{0, 1});
-	public static final Card diamondKing = new Card("diamond", "king", new int[]{11, 22}, new int[]{0, 1});
-	
-	public static final Card spadeAce = new Card("spade", "ace", new int[]{3, 1}, new int[]{1, 0});
-	public static final Card spadeTwo = new Card("spade", "two", new int[]{3, 8}, new int[]{1, 0});
-	public static final Card spadeThree = new Card("spade", "three", new int[]{3, 13}, new int[]{1, 0});
-	public static final Card spadeFour = new Card("spade", "four", new int[]{3, 14}, new int[]{1, 0});
-	public static final Card spadeFive = new Card("spade", "five", new int[]{3, 24}, new int[]{1, 0});
-	public static final Card spadeSix = new Card("spade", "six", new int[]{3, 4}, new int[]{1, 0});
-	public static final Card spadeSeven = new Card("spade", "seven", new int[]{3, 18}, new int[]{1, 0});
-	public static final Card spadeEight = new Card("spade", "eight", new int[]{3, 26}, new int[]{1, 0});
-	public static final Card spadeNine = new Card("spade", "nine", new int[]{3, 27}, new int[]{1, 0});
-	public static final Card spadeTen = new Card("spade", "ten", new int[]{3}, new int[]{2});
-	public static final Card spadeJack = new Card("spade", "jack", new int[]{3, 2}, new int[]{1, 0});
-	public static final Card spadeQueen = new Card("spade", "queen", new int[]{3, 16}, new int[]{1, 0});
-	public static final Card spadeKing = new Card("spade", "king", new int[]{3, 22}, new int[]{1, 0});
-	
-	public static final Card heartAce = new Card("heart", "ace", new int[]{10, 1}, new int[]{1, 0});
-	public static final Card heartTwo = new Card("heart", "two", new int[]{10, 8}, new int[]{1, 0});
-	public static final Card heartThree = new Card("heart", "three", new int[]{10, 13}, new int[]{1, 0});
-	public static final Card heartFour = new Card("heart", "four", new int[]{10, 14}, new int[]{1, 0});
-	public static final Card heartFive = new Card("heart", "five", new int[]{10, 24}, new int[]{1, 0});
-	public static final Card heartSix = new Card("heart", "six", new int[]{10, 4}, new int[]{1, 0});
-	public static final Card heartSeven = new Card("heart", "seven", new int[]{10, 18}, new int[]{1, 0});
-	public static final Card heartEight = new Card("heart", "eight", new int[]{10, 26}, new int[]{1, 0});
-	public static final Card heartNine = new Card("heart", "nine", new int[]{10, 27}, new int[]{1, 0});
-	public static final Card heartTen = new Card("heart", "ten", new int[]{10}, new int[]{2});
-	public static final Card heartJack = new Card("heart", "jack", new int[]{10, 2}, new int[]{1, 0});
-	public static final Card heartQueen = new Card("heart", "queen", new int[]{10, 16}, new int[]{1, 0});
-	public static final Card heartKing = new Card("heart", "king", new int[]{10, 22}, new int[]{1, 0});
-	
-	static{
-		addCard(clubAce);
-		addCard(clubTwo);
-		addCard(clubThree);
-		addCard(clubFour);
-		addCard(clubFive);
-		addCard(clubSix);
-		addCard(clubSeven);
-		addCard(clubEight);
-		addCard(clubNine);
-		addCard(clubTen);
-		addCard(clubJack);
-		addCard(clubQueen);
-		addCard(clubKing);
-		addCard(diamondAce);
-		addCard(diamondTwo);
-		addCard(diamondThree);
-		addCard(diamondFour);
-		addCard(diamondFive);
-		addCard(diamondSix);
-		addCard(diamondSeven);
-		addCard(diamondEight);
-		addCard(diamondNine);
-		addCard(diamondTen);
-		addCard(diamondJack);
-		addCard(diamondQueen);
-		addCard(diamondKing);
-		addCard(spadeAce);
-		addCard(spadeTwo);
-		addCard(spadeThree);
-		addCard(spadeFour);
-		addCard(spadeFive);
-		addCard(spadeSix);
-		addCard(spadeSeven);
-		addCard(spadeEight);
-		addCard(spadeNine);
-		addCard(spadeTen);
-		addCard(spadeJack);
-		addCard(spadeQueen);
-		addCard(spadeKing);
-		addCard(heartAce);
-		addCard(heartTwo);
-		addCard(heartThree);
-		addCard(heartFour);
-		addCard(heartFive);
-		addCard(heartSix);
-		addCard(heartSeven);
-		addCard(heartEight);
-		addCard(heartNine);
-		addCard(heartTen);
-		addCard(heartJack);
-		addCard(heartQueen);
-		addCard(heartKing);
+	public static void init() {
+		PEMAP[0][0] = new int[][]{{5, 1}, {1, 0}};
+		PEMAP[0][1] = new int[][]{{5, 8}, {1, 0}};
+		PEMAP[0][2] = new int[][]{{5, 13}, {1, 0}};
+		PEMAP[0][3] = new int[][]{{5, 14}, {1, 0}};
+		PEMAP[0][4] = new int[][]{{5, 24}, {1, 0}};
+		PEMAP[0][5] = new int[][]{{5, 4}, {1, 0}};
+		PEMAP[0][6] = new int[][]{{5, 18}, {1, 0}};
+		PEMAP[0][7] = new int[][]{{5, 26}, {1, 0}};
+		PEMAP[0][8] = new int[][]{{5, 27}, {1, 0}};
+		PEMAP[0][9] = new int[][]{{5}, {2}};
+		PEMAP[0][10] = new int[][]{{5, 2}, {1, 0}};
+		PEMAP[0][11] = new int[][]{{5, 16}, {1, 0}};
+		PEMAP[0][12] = new int[][]{{5, 22}, {1, 0}};
+		
+		PEMAP[1][0] = new int[][]{{11, 1}, {0, 1}};
+		PEMAP[1][1] = new int[][]{{11, 8}, {0, 1}};
+		PEMAP[1][2] = new int[][]{{11, 13}, {0, 1}};
+		PEMAP[1][3] = new int[][]{{11, 14}, {0, 1}};
+		PEMAP[1][4] = new int[][]{{11, 24}, {0, 1}};
+		PEMAP[1][5] = new int[][]{{11, 4}, {0, 1}};
+		PEMAP[1][6] = new int[][]{{11, 18}, {0, 1}};
+		PEMAP[1][7] = new int[][]{{11, 26}, {0, 1}};
+		PEMAP[1][8] = new int[][]{{11, 27}, {0, 1}};
+		PEMAP[1][9] = new int[][]{{11}, {2}};
+		PEMAP[1][10] = new int[][]{{11, 2}, {0, 1}};
+		PEMAP[1][11] = new int[][]{{11, 16}, {0, 1}};
+		PEMAP[1][12] = new int[][]{{11, 22}, {0, 1}};
+		
+		PEMAP[2][0] = new int[][]{{3, 1}, {1, 0}};
+		PEMAP[2][1] = new int[][]{{3, 8}, {1, 0}};
+		PEMAP[2][2] = new int[][]{{3, 13}, {1, 0}};
+		PEMAP[2][3] = new int[][]{{3, 14}, {1, 0}};
+		PEMAP[2][4] = new int[][]{{3, 24}, {1, 0}};
+		PEMAP[2][5] = new int[][]{{3, 4}, {1, 0}};
+		PEMAP[2][6] = new int[][]{{3, 18}, {1, 0}};
+		PEMAP[2][7] = new int[][]{{3, 26}, {1, 0}};
+		PEMAP[2][8] = new int[][]{{3, 27}, {1, 0}};
+		PEMAP[2][9] = new int[][]{{3}, {2}};
+		PEMAP[2][10] = new int[][]{{3, 2}, {1, 0}};
+		PEMAP[2][11] = new int[][]{{3, 16}, {1, 0}};
+		PEMAP[2][12] = new int[][]{{3, 22}, {1, 0}};
+		
+		PEMAP[3][0] = new int[][]{{10, 1}, {1, 0}};
+		PEMAP[3][1] = new int[][]{{10, 8}, {1, 0}};
+		PEMAP[3][2] = new int[][]{{10, 13}, {1, 0}};
+		PEMAP[3][3] = new int[][]{{10, 14}, {1, 0}};
+		PEMAP[3][4] = new int[][]{{10, 24}, {1, 0}};
+		PEMAP[3][5] = new int[][]{{10, 4}, {1, 0}};
+		PEMAP[3][6] = new int[][]{{10, 18}, {1, 0}};
+		PEMAP[3][7] = new int[][]{{10, 26}, {1, 0}};
+		PEMAP[3][8] = new int[][]{{10, 27}, {1, 0}};
+		PEMAP[3][9] = new int[][]{{10}, {2}};
+		PEMAP[3][10] = new int[][]{{10, 2}, {1, 0}};
+		PEMAP[3][11] = new int[][]{{10, 16}, {1, 0}};
+		PEMAP[3][12] = new int[][]{{10, 22}, {1, 0}};
+		
+		for(int i = 0; i < PEMAP.length; i++) {
+			ArrayList<Card> cardsInSuit = new ArrayList<>();
+			for(int j = 0; j < PEMAP[i].length; j++) {
+				Card card = new Card(Suit.values()[i], CardType.values()[j], PEMAP[i][j][0], PEMAP[i][j][1]);
+				cardsInSuit.add(card);
+				addCard(card);
+			}
+			cardsBySuit.add(cardsInSuit);
+		}
 	}
 	
 	public static void addCard(Card card){

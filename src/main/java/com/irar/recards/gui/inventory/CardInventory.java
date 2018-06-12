@@ -1,5 +1,7 @@
 package com.irar.recards.gui.inventory;
 
+import java.util.ArrayList;
+
 import com.irar.recards.card.Card;
 import com.irar.recards.card.Cards;
 import com.irar.recards.handlers.ItemHandler;
@@ -35,16 +37,21 @@ public class CardInventory implements IInventory{
     	this.tier = tier;
     	this.setCustomName(tier == 1 ? "Select A Card To Gain The Powers Of:" : "Select A Card To Upgrade:");
     	if(!player.world.isRemote){
-	    	for(int i = 0; i < 52; i++){
-	    		Item currentCardItem = Cards.allCardItems.get(i);
-	    		Card currentCard = ((ItemCard) currentCardItem).getCard();
-	    		if(CommonProxy.saveData.hasCard(currentCard, player)){
-		    		if(CommonProxy.saveData.hasCardInTier(currentCard, tier - 1, player)){
-		    			this.setInventorySlotContents(i, ((ItemCard) currentCardItem).getItemStackWithTier(tier));
+    		int k = 0;
+	    	for(int i = 0; i < 4; i++){
+	    		ArrayList<Card> cards = Cards.cardsBySuit.get(i);
+		    	for(int j = 0; j < 13; j++){
+		    		Card currentCard = cards.get(j);
+		    		ItemStack currentCardItem = ItemCard.getItemStackWithTierCardAndMetadata(currentCard, tier, 0);
+		    		if(CommonProxy.saveData.hasCard(currentCard, player)){
+			    		if(CommonProxy.saveData.hasCardInTier(currentCard, tier - 1, player)){
+			    			this.setInventorySlotContents(k, currentCardItem);
+			    		}
+		    		}else if(tier == 1){
+		    			this.setInventorySlotContents(k, currentCardItem);
 		    		}
-	    		}else if(tier == 1){
-	    			this.setInventorySlotContents(i, ((ItemCard) currentCardItem).getItemStackWithTier(tier));
-	    		}
+		    		k++;
+		    	}
 	    	}
     	}
     }
