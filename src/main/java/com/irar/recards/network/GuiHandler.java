@@ -21,7 +21,7 @@ public class GuiHandler implements IGuiHandler{
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		System.out.println("Made it to server gui");
 		if(ID == this.CARD_SELECTOR)
-			return new ContainerCardInventory(player.inventory, new CardInventory(x, player));
+			return new ContainerCardInventory(player.inventory, new CardInventory(x, player, true));
 		if(ID == this.CARD_VIEWER)
 			return new ContainerMainInv(player.inventory, new MainInv(player));
 		
@@ -32,7 +32,7 @@ public class GuiHandler implements IGuiHandler{
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		System.out.println("Made it to client gui");
 		if(ID == this.CARD_SELECTOR)
-			return new GuiCardInventory(player.inventory, new CardInventory(x, player));
+			return new GuiCardInventory(player.inventory, new CardInventory(x, player, false));
 		if(ID == this.CARD_VIEWER)
 			return new GuiMainInv(player.inventory, new MainInv(player));
 

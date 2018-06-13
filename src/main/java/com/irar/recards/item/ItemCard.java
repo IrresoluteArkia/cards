@@ -95,8 +95,9 @@ public class ItemCard  extends ItemGeneric implements ItemMeshDefinition, IItemC
 			}else if(stack.getMetadata() == 1) {
 				tooltip.add("Level " + tier);
 			}
-			for(PotionEffect effect : card.potionEffects) {
-				tooltip.add(I18n.translateToLocal(effect.getEffectName()) + " " + (effect.getAmplifier() + tier));
+			for(int i = 0; i < card.potionEffects.size(); i++) {
+				PotionEffect effect = card.potionEffects.get(i);
+				tooltip.add(I18n.translateToLocal(effect.getEffectName()) + " " + Math.min(effect.getAmplifier() + tier, card.maxAmps[i] + 1));
 			}
 		}
 		

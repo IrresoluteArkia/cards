@@ -29,12 +29,14 @@ public class CardInventory implements IInventory{
     private String customName;
     private int tier;
     private EntityPlayer player;
+	private boolean server;
 	public static boolean isClear = false;
     
-    public CardInventory(int tier, EntityPlayer player){
+    public CardInventory(int tier, EntityPlayer player, boolean server){
     	isClear = false;
     	this.player = player;
     	this.tier = tier;
+    	this.server = server;
     	this.setCustomName(tier == 1 ? "Select A Card To Gain The Powers Of:" : "Select A Card To Upgrade:");
     	if(!player.world.isRemote){
     		int k = 0;
@@ -108,7 +110,9 @@ public class CardInventory implements IInventory{
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
         ItemStack itemstack = ItemStackHelper.getAndSplit(this.inventory, index, count);
-		sendMessage(itemstack);
+        if(!server) {
+        	sendMessage(itemstack);
+        }
         if (!itemstack.isEmpty())
         {
             this.markDirty();

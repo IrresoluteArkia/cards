@@ -124,16 +124,22 @@ public class CommonProxy implements IProxy{
             	tickMap.put(entityPlayer, tick);
 //            	System.out.println(entityPlayer.getUniqueID().toString());
             	if(saveData.isPlayerInList(entityPlayer) && tick % 600 == 0){
+            		float health = entityPlayer.getHealth();
             		ArrayList<Object[]> playerCards = saveData.getCardsWithTierForPlayer(entityPlayer);
             		for(int i = 0; i < playerCards.size(); i++){
             			Object[] cardAndTier = playerCards.get(i);
-                		for(int j = 0; j < ((Card) cardAndTier[0]).potionEffects.size(); j++){
-                			Card playerCard = ((Card) cardAndTier[0]);
+            			Card playerCard = ((Card) cardAndTier[0]);
+            			if(playerCard == null) {
+            				continue;
+            			}
+                		for(int j = 0; j < playerCard.potionEffects.size(); j++){
                 			int amp = (int) cardAndTier[1];
                 			PotionEffect effect = playerCard.potionEffects.get(j);
-                			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, effect.getAmplifier() + amp - 1, false, false));
+                			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, Math.min(effect.getAmplifier() + amp - 1, playerCard.maxAmps[j]), false, false));
                 		}
             		}
+            		float healAmount = health - entityPlayer.getHealth();
+            		entityPlayer.heal(healAmount);
             	}
             }
         }
@@ -151,7 +157,7 @@ public class CommonProxy implements IProxy{
             			Card playerCard = ((Card) cardAndTier[0]);
             			int amp = (int) cardAndTier[1];
             			PotionEffect effect = playerCard.potionEffects.get(j);
-            			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, effect.getAmplifier() + amp - 1, false, false));
+            			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, Math.min(effect.getAmplifier() + amp - 1, playerCard.maxAmps[j]), false, false));
             		}
         		}
         	}
