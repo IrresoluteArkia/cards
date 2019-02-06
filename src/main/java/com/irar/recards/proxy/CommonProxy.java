@@ -135,7 +135,7 @@ public class CommonProxy implements IProxy{
                 		for(int j = 0; j < playerCard.potionEffects.size(); j++){
                 			int amp = (int) cardAndTier[1];
                 			PotionEffect effect = playerCard.potionEffects.get(j);
-                			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (60 * 20) - 1, Math.min(effect.getAmplifier() + amp - 1, playerCard.maxAmps[j]), false, false));
+                			entityPlayer.addPotionEffect(new PotionEffect(effect.getPotion(), (100000 * 20) - 1, Math.min(effect.getAmplifier() + amp - 1, playerCard.maxAmps[j]), false, false));
                 		}
             		}
             		float healAmount = health - entityPlayer.getHealth();
